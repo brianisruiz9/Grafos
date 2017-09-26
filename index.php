@@ -73,7 +73,7 @@ if (!isset($_SESSION["grafo"])) {
     <form action="index.php" method="post" id="submit2">
         <label> Id de Vertice: </label>  
         <input type="text" name="ivertice" id="submit1" required>
-        <input type="submit" value="Agregar" id="submit" name="submit"><br><hr>
+        <input type="submit" value="Agregar" id="submit" name="submit"><br>
 
     </form>
 
@@ -86,7 +86,7 @@ if (!isset($_SESSION["grafo"])) {
         <input type="text" name="vdestino" id="submit1"required>
         <label> Peso: </label>  
         <input type="text" name="vpeso" id="submit1"pattern="[0-9]">
-        <input type="submit" value="Agregar"id="submit" name="submit"><br><hr>
+        <input type="submit" value="Agregar"id="submit" name="submit"><br>
     </form>
 
     <img src="65.png">
@@ -94,7 +94,7 @@ if (!isset($_SESSION["grafo"])) {
     <form action="index.php" method="post" id="submit2">
         <label> Id de Vertice: </label>  
         <input type="text" name="idvertice" id="submit1"required>
-        <input type="submit" value="Mostrar"id="submit" name="submit"><br><hr>
+        <input type="submit" value="Mostrar"id="submit" name="submit"><br>
     </form>
 
     <img src="65.png">
@@ -102,7 +102,7 @@ if (!isset($_SESSION["grafo"])) {
     <form action="index.php" method="post" id="submit2">
         <label> Id de Vertice: </label>  
         <input type="text" name="adyacente" id="submit1"required>
-        <input type="submit" value="Mostrar"id="submit" name="submit"><br><hr>
+        <input type="submit" value="Mostrar"id="submit" name="submit"><br>
     </form>
 
     <img src="65.png">
@@ -110,15 +110,43 @@ if (!isset($_SESSION["grafo"])) {
     <form action="index.php" method="post" id="submit2">
         <label> Id de Vertice: </label>  
         <input type="text" name="grado" id="submit1"required>
-        <input type="submit" value="Mostrar"id="submit" name="submit"><br><hr>
+        <input type="submit" value="Mostrar"id="submit" name="submit"><br>
     </form>
+
+    <img src="42.png">
+    <font size=5><b>Invertir Aristas</b></font>
+    <form action="index.php" method="post" id="submit2"> 
+        <label> Id de Vertice: </label>  
+        <input type="text" name="vertice1" id="submit1"required>
+        <label> Id de Vertice: </label>  
+        <input type="text" name="vertice2" id="submit1"required>
+        <input type="submit" value="Invertir"id="submit" name="submit"><br>
+    </form>
+
+    <img src="42.png">
+    <font size=5><b>Invertir Todas las Aristas</b></font>
+    <form action="index.php" method="post" id="submit2"> 
+        <input type="submit" value="Invertir"id="submit" name="submit1"><br>
+    </form> 
+    
+    <img src="65.png">
+    <font size=5><b>Ver Vertice con Mayor Grado</b></font>
+    <form action="index.php" method="post" id="submit2">
+        <input type="submit" value="Mostrar"id="submit" name="submit2"><br>
+    </form>
+    
+    <img src="42.png">
+    <font size=5><b>Convertir a NO Dirigido</b></font>
+    <form action="index.php" method="post" id="submit2"> 
+        <input type="submit" value="Convertir"id="submit" name="submit3"><br>
+    </form> 
 
     <img src="33.png">
     <font size=5><b>Eliminar Vertice</b></font>
     <form action="index.php" method="post" id="submit2">
         <label> Id de Vertice: </label>  
         <input type="text" name="vertice" id="submit1"required>
-        <input type="submit" value="Eliminar"id="submit" name="submit"><br><hr>
+        <input type="submit" value="Eliminar"id="submit" name="submit"><br>
     </form>
 
     <img src="33.png">
@@ -128,7 +156,7 @@ if (!isset($_SESSION["grafo"])) {
         <input type="text" name="origen" id="submit1"required>
         <label> Vertice Destino: </label>  
         <input type="text" name="destino" id="submit1"required>
-        <input type="submit" value="Eliminar"id="submit" name="submit"><br><hr>
+        <input type="submit" value="Eliminar"id="submit" name="submit"><br>
     </form>
 
     <?php
@@ -141,7 +169,7 @@ if (!isset($_SESSION["grafo"])) {
     if (isset($_POST["vorigen"], $_POST["vdestino"], $_POST["vpeso"])) {
         $p = $_SESSION["grafo"]->encontrarV($_POST["vorigen"]);
         $d = $_SESSION["grafo"]->encontrarV($_POST["vdestino"]);
-        if ($p == false && $d == false) {
+        if ($p == false || $d == false) {
             echo "¡¡¡¡¡¡¡¡¡EL VERTICE NO EXISTE!!!!!!!!!!";
         } else {
             $_SESSION["grafo"]->agregarArista($_POST["vorigen"], $_POST["vdestino"], $_POST["vpeso"]);
@@ -194,11 +222,32 @@ if (!isset($_SESSION["grafo"])) {
     if (isset($_POST["origen"], $_POST["destino"])) {
         $p = $_SESSION["grafo"]->encontrarV($_POST["origen"]);
         $d = $_SESSION["grafo"]->encontrarV($_POST["destino"]);
-        if ($p == false && $d == false) {
+        if ($p == false || $d == false) {
             echo "¡¡¡¡¡¡¡¡¡EL VERTICE NO EXISTE!!!!!!!!!!";
         } else {
             $_SESSION["grafo"]->eliminarArista($_POST["origen"], $_POST["destino"]);
         }
+    }
+
+    if (isset($_POST["vertice1"], $_POST["vertice2"])) {
+        $v = $_SESSION["grafo"]->encontrarV($_POST["vertice1"]);
+        $b = $_SESSION["grafo"]->encontrarV($_POST["vertice2"]);
+        if ($v == false || $b == false) {
+            echo "¡¡¡¡¡¡¡¡¡EL VERTICE NO EXISTE!!!!!!!!!!";
+        } else {
+            $_SESSION["grafo"]->invertirAristas($_POST["vertice1"], $_POST["vertice2"]);
+        }
+    }
+    if (isset($_POST["submit1"])) {
+        $_SESSION["grafo"]->elMetodo();
+    }
+    
+    if (isset($_POST["submit2"])) {
+        echo var_export($_SESSION["grafo"]->mayorGrado());
+    }
+    
+    if (isset($_POST["submit3"])) {
+        $_SESSION["grafo"]->noDirigido();
     }
     ?>
 

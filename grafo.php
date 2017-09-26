@@ -14,7 +14,7 @@ Class Grafo {
         $this->dirigido = $dir;
     }
 
-    //recibe objeto tipo vertice, no pueden repetirce id
+//recibe objeto tipo vertice, no pueden repetirce id
     public function agregarVertice($v) {
         if (!isset($this->vectorV[$v->getId()])) {
             $this->matrizA[$v->getId()] = null;
@@ -32,12 +32,12 @@ Class Grafo {
     public function encontrarV($v) {
         if (isset($this->vectorV[$v])) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
-    //recibe id de nodo origen, destino y peso (opcional)
+//recibe id de nodo origen, destino y peso (opcional)
     public function agregarArista($o, $d, $p = null) {
         if (isset($this->vectorV[$o]) && isset($this->vectorV[$d])) {
             $this->matrizA[$o][$d] = $p;
@@ -48,7 +48,7 @@ Class Grafo {
         return true;
     }
 
-    //recibe id de nodo y retorna en un arreglo sus adyacentes.
+//recibe id de nodo y retorna en un arreglo sus adyacentes.
     public function getAdyacentes($v) {
         return $this->matrizA[$v];
     }
@@ -61,7 +61,7 @@ Class Grafo {
         return $this->vectorV;
     }
 
-    //recibe el id del vertice y retorna grado de salida del mismo
+//recibe el id del vertice y retorna grado de salida del mismo
     public function gradoSalida($v) {
 
         return count($this->matrizA[$v]);
@@ -84,13 +84,13 @@ Class Grafo {
         return $gr;
     }
 
-    //recibe el id del vertice y retorna grado del mismo
+//recibe el id del vertice y retorna grado del mismo
     public function grado($v) {
 
         return $this->gradoSalida($v) + $this->gradoEntrada($v);
     }
 
-    //recibe id de vertice origen y destino
+//recibe id de vertice origen y destino
     public function eliminarArista($o, $d) {
         if (isset($this->matrizA[$o][$d])) {
             unset($this->matrizA[$o][$d]);
@@ -101,7 +101,7 @@ Class Grafo {
         return true;
     }
 
-    //recibe id de vertice a eliminar, elimina aristas relacionadas
+//recibe id de vertice a eliminar, elimina aristas relacionadas
     public function eliminarVertice($v) {
         if (isset($this->vectorV[$v])) {
             foreach ($this->matrizA as $vp => $adya) {
@@ -119,6 +119,58 @@ Class Grafo {
             return false;
         }
         return true;
+    }
+
+    public function mayorGrado() {
+        $mayor = 0;
+        if ($this->matrizA != null) {
+            foreach ($this->matrizA as $vp => $adya) {
+                if (count($adya) > $mayor) {
+                    $mayor = $this->grado($vp);
+                    $v = $this->getVertice($vp);
+                }
+            }
+            echo "El grado mayor es:" . $mayor;
+            return $v;
+        }
+    }
+
+    public function conexo() {
+        
+    }
+
+    public function noDirigido() {
+        
+    }
+
+    public function invertirAristas($v, $b) {
+        if (isset($this->matrizA[$v][$b])) {
+            $p = $this->matrizA[$v][$b];
+            unset($this->matrizA[$v][$b]);
+            $this->matrizA[$b][$v] = $p;
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+    public function elMetodo() {
+        if ($this->matrizA != null) {
+            foreach ($this->matrizA as $vp => $adya) {
+                if (count($adya) > 1) {
+                    $pesomenor = 9999999999;
+                    $verticemenor = null;
+                    foreach ($adya as $de => $pe) {
+                        if ($pe < $pesomenor) {
+                            $pesomenor = $pe;
+                            $verticemenor = $de;
+                        }
+                    }
+                    unset($this->matrizA[$vp][$verticemenor]);
+                    $this->matrizA[$verticemenor][$vp] = $pesomenor;
+                }
+            }
+        }
     }
 
 }
